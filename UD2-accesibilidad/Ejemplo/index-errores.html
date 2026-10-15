@@ -194,7 +194,6 @@
       display: none;
     }
 
-
     /* Ventana modal promocional sin accesibilidad */
     .modal-overlay {
       background: rgba(0, 0, 0, 0.5);
@@ -221,18 +220,64 @@
       font-weight: bold;
     }
 
+
+    /*==========================================
+    =            Estilos del footer            =
+    ==========================================*/
+
+    footer {
+      background-color: #0f172a;
+      color: #fff;
+      padding: 1.8rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    /* background: #222; color: #fff; padding: 15px; text-align: center; */
+
     /* Redes sociales */
     .social-icon {
-      display: inline-block;
-      width: 30px;
-      height: 30px;
-      background: #888;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: #1e293b;
       color: #fff;
       text-align: center;
       border-radius: 50%;
+      text-decoration: none;
+      font-size: 1.2rem;
+      overflow: hidden;
     }
 
-    .error-msg {
+    .social-icon:hover,
+    .social-icon:focus {
+      background-color: var(--bg-color);
+      color: #000;
+      outline: 1px solid var(--color-title);
+    }
+
+    .social-link {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .sr-only {
+      position: absolute;
+      bottom: 200vh;
+      overflow: hidden;
+      width: 0;
+      height: 0;
+    }
+
+    /*=====  End of Estilos del footer  ======*/
+
+    .error-text {
       color: #f87171;
       font-size: 12px;
     }
@@ -326,95 +371,108 @@
       </div>
     </section>
     <!-- FALLO 11: Modal flotante maquetado con <div>, sin roles ARIA ni trampa de foco -->
-    <dialog class="modal-overlay" id="promoModal">
-      <li class="modal-content">
+    <dialog class="modal-overlay" id="promoModal" aria-modal="true">
+      <section class="modal-content">
         <!-- FALLO 12: Cierre de modal hecho con un <span> no interactivo y un carácter "X" sin contexto -->
-        <span class="close-btn" onclick="document.getElementById('promoModal').style.display='none'">X</span>
-        <h3>¡Consigue un 10% de descuento!</h3>
+        <button class="close-btn" onclick="cerrarModal()" aria-label="Cerrar ventana modal">X</button>
+        <h2>¡Consigue un 10% de descuento!</h2>
         <p>Suscríbete a nuestra lista de correo hoy mismo.</p>
-      </li>
+        <button type="button" class="btn-accion" onclick="cerrarModal()">Entendido</button>
+      </section>
     </dialog>
 
 
     <section style="clear: both; padding: 20px;">
       <h3>Contacto</h3>
-      <form id="contactForm">
+      <form id="contactForm" onsubmit="event.preventDefault(); validar();">
         <!-- FALLO 13: Campo de texto sin <label> asociado -->
         <!-- FALLO 14: Marcado de campo obligatorio únicamente con placeholder o asterisco visual -->
         <label for="nombreCliente">Nombre completo <span class="required-tab" aria-hidden="true">*</span></label>
-        <input type="text" id="nombreCliente" placeholder="María José"
+        <input type="text" id="nombreCliente" placeholder="María José Pérez López"
           pattern="[a-zA-ZáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙüÜÇç\- ]{2,15}" aria-required="true" required
           title="Nombre y apellidos. De 2 a 15 caracteres. Letras mayúsculas, minúsculas con tilde"
           aria-labelledby="nameErr">
         <!-- FALLO 15: Mensaje de error no comunicado a lectores de pantalla (sin role="alert") -->
-        <span id="nameErr" role="alert" class="error-msg" style="display:none;">Error: el campo nombre es obligatorio
+        <span id="nameErr" role="alert" class="error-text">Error: el campo nombre es obligatorio
           para procesar la consulta.</span>
 
-        <button type="submit" onclick="validarFormulario()">Enviar</button>
+        <button type="submit" onclick="validar()" class="btn-accion">Enviar</button>
       </form>
     </section>
   </main>
   <!-- FALLO 16: Pie de página sin etiqueta <footer> -->
-  <footer style="background: #222; color: #fff; padding: 15px; text-align: center;">
+  <footer>
     <p>Síguenos en redes:</p>
     <!-- FALLO 17: Enlaces que solo contienen un icono visual sin texto accesible -->
-    <a href="#" class="social-icon">f</a>
-    <a href="#" class="social-icon">t</a>
+    <ul class="social-link">
+      <li>
+        <a href="#" class="social-icon">
+          <span aria-hidden="true">f</span>
+          <span class="sr-only">Enlace a nuestra cuenta de Facebook</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="social-icon">
+          <span aria-hidden="true">X</span>
+          <span class="sr-only">Enlace a nuestra cuenta de X</span>
+        </a>
+      </li>
+    </ul>
     <p>© 2026 EcoShop Verde</p>
   </footer>
 
   <script>
-      function cerrarModal() {
-          document.getElementById('promoModal').style.display = 'none';
-        }
+    function cerrarModal() {
+      document.getElementById('promoModal').style.display = 'none';
+    }
 
-        function validar() {
-          const input = document.getElementById('nombreCliente');
-          const err = document.getElementById('nombreError');
+    function validar() {
+      const input = document.getElementById('nombreCliente');
+      const err = document.getElementById('nombreError');
 
-          if (!input.value.trim()) {
-            input.setAttribute('aria-invalid', 'true');
-            err.style.display = 'block';
-            // alert("El campo no puede estar vacio");
-            input.focus();
-          } else {
-            input.removeAttribute('aria-invalid');
-            err.style.display = 'none';
-            alert('Formulario enviado con éxito.');
-          }
-        }
+      if (!input.value.trim()) {
+        input.setAttribute('aria-invalid', 'true');
+        err.style.display = 'block';
+        // alert("El campo no puede estar vacio");
+        input.focus();
+      } else {
+        input.removeAttribute('aria-invalid');
+        err.style.display = 'none';
+        alert('Formulario enviado con éxito.');
+      }
+    }
 
-        // Pestañas accesibles: funciona con cualquier número de tablist en la página
-        document.querySelectorAll('[role="tablist"]').forEach(function (tablist) {
-          const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+    // Pestañas accesibles: funciona con cualquier número de tablist en la página
+    document.querySelectorAll('[role="tablist"]').forEach(function (tablist) {
+      const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
 
-          function activarTab(tab, darFoco) {
-            tabs.forEach(function (t) {
-              const activa = t === tab;
-              t.setAttribute('aria-selected', activa);
-              t.tabIndex = activa ? 0 : -1;
-              document.getElementById(t.getAttribute('aria-controls')).hidden = !activa;
-            });
-            if (darFoco) tab.focus();
-          }
-
-          tabs.forEach(function (tab, i) {
-            tab.addEventListener('click', function () {
-              activarTab(tab, false);
-            });
-
-            tab.addEventListener('keydown', function (e) {
-              let destino;
-              if (e.key === 'ArrowRight') destino = tabs[(i + 1) % tabs.length];
-              else if (e.key === 'ArrowLeft') destino = tabs[(i - 1 + tabs.length) % tabs.length];
-              else if (e.key === 'Home') destino = tabs[0];
-              else if (e.key === 'End') destino = tabs[tabs.length - 1];
-              else return;
-              e.preventDefault();
-              activarTab(destino, true);
-            });
-          });
+      function activarTab(tab, darFoco) {
+        tabs.forEach(function (t) {
+          const activa = t === tab;
+          t.setAttribute('aria-selected', activa);
+          t.tabIndex = activa ? 0 : -1;
+          document.getElementById(t.getAttribute('aria-controls')).hidden = !activa;
         });
+        if (darFoco) tab.focus();
+      }
+
+      tabs.forEach(function (tab, i) {
+        tab.addEventListener('click', function () {
+          activarTab(tab, false);
+        });
+
+        tab.addEventListener('keydown', function (e) {
+          let destino;
+          if (e.key === 'ArrowRight') destino = tabs[(i + 1) % tabs.length];
+          else if (e.key === 'ArrowLeft') destino = tabs[(i - 1 + tabs.length) % tabs.length];
+          else if (e.key === 'Home') destino = tabs[0];
+          else if (e.key === 'End') destino = tabs[tabs.length - 1];
+          else return;
+          e.preventDefault();
+          activarTab(destino, true);
+        });
+      });
+    });
   </script>
 
 </body>
