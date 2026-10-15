@@ -89,6 +89,7 @@
     h1 {
       position: absolute;
       top: -100vh;
+      color: black;
     }
 
     h2 {
@@ -98,6 +99,7 @@
 
     h3 {
       font-size: 1.5rem;
+      text-align: center;
     }
 
     /*=====  End of Estilos del header  ======*/
@@ -110,7 +112,7 @@
     }
 
 
-    /* Botones y tarjetas */
+    /* BOTONES Y CARDS */
     .cards {
       list-style: none;
       width: 100%;
@@ -142,7 +144,7 @@
       font-weight: bold;
     }
 
-    .btn-buy {
+    .btn {
       background: var(--color-title);
       color: #ffffff;
       padding: 8px;
@@ -150,51 +152,61 @@
       cursor: pointer;
     }
 
-
-    /* Pestañas */
+    /* PESTAÑAS */
     .tabs {
       max-width: 800px;
       margin: 16px auto 0;
     }
 
-    .tab-list {
+    [role="tablist"] {
       display: flex;
+      flex-wrap: wrap;
       gap: 4px;
+      border-bottom: 3px solid #14532d;
     }
 
-    .tab {
-      background: #f1f5f9;
-      color: #cbd5e1;
+    [role="tab"] {
+      background-color: #e2e8f0;
+      color: #14532d;
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
       padding: 10px 18px;
-      font-size: .8rem;
-      cursor: pointer;
-      outline: none;
+      font-weight: bold;
     }
 
-    .tab.active {
-      background: #e2e8f0;
-      color: #94a3b8;
+    [role="tab"][aria-selected="true"] {
+      background-color: #14532d;
+      color: white;
+      border-color: #14532d;
     }
 
-    .tab-content {
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
+    [role="tab"]:hover {
+      background-color: #84a188;
+      color: black;
+    }
+
+    [role="tab"]:focus-visible {
+      outline: 3px solid #facc15;
+      border-top: none;
       padding: 24px;
     }
 
-    .tab-content p {
-      margin-bottom: 12px;
+    [role="tabpanel"] {
+      background-color: white;
+      border: 1px solid #84a188;
+      border-top: none;
+      padding: 24px;
     }
 
-    .tab-content ul {
-      padding-left: 20px;
-    }
-
-    .oculto {
+    [role="tabpanel"][hidden] {
       display: none;
     }
 
-    /* Ventana modal promocional sin accesibilidad */
+    [role="tabpanel"]:focus-visible {
+      outline: 3px solid #22c55e;
+    }
+
+    /* VENTANA MODAL */
     .modal-overlay {
       background: rgba(0, 0, 0, 0.5);
       position: fixed;
@@ -212,14 +224,63 @@
       padding: 20px;
       border-radius: 5px;
       color: #333;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modal-content .btn {
+      align-self: center;
     }
 
     .close-btn {
       float: right;
       cursor: pointer;
       font-weight: bold;
+      padding: 4px 6px;
+      background-color: transparent;
+      border: none;
+      outline: 1px solid #14532d;
+      border-radius: 4px;
+      align-self: flex-end;
     }
 
+    /* FORMULARIO */
+
+    .error-text {
+      color: #af0808;
+      font-size: 1rem;
+      font-weight: bold;
+      display: none;
+      /* left: -100vw; */
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    .campo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    input[type="text"] {
+      min-width: 400px;
+      padding: .5rem .75rem;
+      border-radius: 6px;
+      border: 1px solid #14532d;
+    }
+
+    input[type="text"]:focus {
+      background-color: rgba(245, 222, 179, 0.781);
+    }
+
+    input[type="text"]:not(:placeholder-shown):invalid {
+      outline: 2px solid red;
+    }
+
+    /*=====  End of main  ======*/
 
     /*==========================================
     =            Estilos del footer            =
@@ -276,11 +337,6 @@
     }
 
     /*=====  End of Estilos del footer  ======*/
-
-    .error-text {
-      color: #f87171;
-      font-size: 12px;
-    }
   </style>
 </head>
 
@@ -321,7 +377,7 @@
           <p class="price-tag">12,50 €</p>
           <!-- FALLO 9: Texto de botón "Añadir" ambiguo para lectores de pantalla -->
           <!-- FALLO 10: Texto blanco sobre botón amarillo (#facc15), invalida WCAG AA -->
-          <button class="btn-buy" onclick="alert('Añadido')">Añadir al carrito</button>
+          <button class="btn" onclick="alert('Añadido')">Añadir al carrito</button>
         </li>
 
         <li class="product-box">
@@ -334,7 +390,7 @@
           <p class="price-tag">8,99 €</p>
           <!-- FALLO 9: Texto de botón "Añadir" ambiguo para lectores de pantalla -->
           <!-- FALLO 10: Texto blanco sobre botón amarillo (#facc15), invalida WCAG AA -->
-          <button class="btn-buy" onclick="alert('Añadido')">Añadir al carrito</button>
+          <button class="btn" onclick="alert('Añadido')">Añadir al carrito</button>
         </li>
       </ul>
     </section>
@@ -343,19 +399,19 @@
       <h3>Botella Reutilizable: detalles del producto</h3>
 
       <div class="tabs">
-        <div class="tab-list">
-          <div class="tab active" id="t1" onclick="mostrar(1)">Descripción</div>
-          <div class="tab" id="t2" onclick="mostrar(2)">Materiales</div>
-          <div class="tab" id="t3" onclick="mostrar(3)"><span>🚚</span></div>
+        <div class="tab-list" role="tablist">
+          <button role="tab" class="tab active" id="tab-desc" aria-selected="true" aria-controls="panel-desc">Descripción</button>
+          <button role="tab" class="tab" id="tab-mat" aria-selected="false" aria-controls="panel-mat"
+            tabindex="-1">Materiales</button>
+          <button role="tab" class="tab" id="tab-envio" aria-selected="false" aria-controls="panel-envio">Envíos y devoluciones</button>
         </div>
 
-        <div class="tab-content" id="c1">
-          <p>Botella libre de BPA con aislamiento térmico de doble pared. Mantiene las bebidas frías durante 24 horas y
-            calientes durante 12.</p>
+        <div class="tab-content" role="tabpanel" id="panel-desc" aria-labelledby="tab-desc" tabindex="0">
+          <p>Botella libre de BPA con aislamiento térmico de doble pared. Mantiene las bebidas frías durante 24 horas y calientes durante 12.</p>
           <p>Capacidad de 500 ml, tapón hermético y boca ancha para añadir hielo o limpiar con facilidad.</p>
         </div>
 
-        <div class="tab-content oculto" id="c2">
+        <div class="tab-content" role="tabpanel" id="panel-mat" aria-labelledby="tab-mat" tabindex="0" hidden>
           <ul>
             <li>Cuerpo de acero inoxidable 18/8 reciclado</li>
             <li>Tapón de bambú de origen certificado</li>
@@ -364,7 +420,7 @@
           </ul>
         </div>
 
-        <div class="tab-content oculto" id="c3">
+        <div class="tab-content" role="tabpanel" id="panel-envio" aria-labelledby="tab-envio" tabindex="0" hidden>
           <p>Envío neutro en carbono en 2-4 días laborables. Envío gratuito en pedidos superiores a 30 €.</p>
           <p>Dispones de 30 días para devolverla si no te convence.</p>
         </div>
@@ -374,11 +430,11 @@
     <dialog class="modal-overlay" id="promoModal" aria-modal="true">
       <section class="modal-content">
         <!-- FALLO 12: Cierre de modal hecho con un <span> no interactivo y un carácter "X" sin contexto -->
-        <button class="close-btn" onclick="cerrarModal()" aria-label="Cerrar ventana modal">X</button>
-        <h2>¡Consigue un 10% de descuento!</h2>
-        <p>Suscríbete a nuestra lista de correo hoy mismo.</p>
-        <button type="button" class="btn-accion" onclick="cerrarModal()">Entendido</button>
-      </section>
+          <button class="close-btn" onclick="cerrarModal()" aria-label="Cerrar ventana modal">X</button>
+          <h2>¡Consigue un 10% de descuento!</h2>
+          <p>Suscríbete a nuestra lista de correo hoy mismo.</p>
+          <button type="button" class="btn" onclick="cerrarModal()">Entendido</button>
+        </section>
     </dialog>
 
 
@@ -387,16 +443,13 @@
       <form id="contactForm" onsubmit="event.preventDefault(); validar();">
         <!-- FALLO 13: Campo de texto sin <label> asociado -->
         <!-- FALLO 14: Marcado de campo obligatorio únicamente con placeholder o asterisco visual -->
-        <label for="nombreCliente">Nombre completo <span class="required-tab" aria-hidden="true">*</span></label>
-        <input type="text" id="nombreCliente" placeholder="María José Pérez López"
-          pattern="[a-zA-ZáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙüÜÇç\- ]{2,15}" aria-required="true" required
-          title="Nombre y apellidos. De 2 a 15 caracteres. Letras mayúsculas, minúsculas con tilde"
-          aria-labelledby="nameErr">
-        <!-- FALLO 15: Mensaje de error no comunicado a lectores de pantalla (sin role="alert") -->
-        <span id="nameErr" role="alert" class="error-text">Error: el campo nombre es obligatorio
-          para procesar la consulta.</span>
-
-        <button type="submit" onclick="validar()" class="btn-accion">Enviar</button>
+        <p class="campo">
+          <label for="nombreCliente">Nombre completo <span class="required-tab" aria-hidden="true">*</span></label>
+          <input type="text" id="nombreCliente" placeholder="María José Pérez López" aria-required="true" required title="Nombre y apellidos. De 2 a 15 caracteres. Letras mayúsculas, minúsculas con tilde" aria-labelledby="nameErr">
+          <!-- FALLO 15: Mensaje de error no comunicado a lectores de pantalla (sin role="alert") -->
+        </p>
+        <span id="nameErr" role="alert" class="error-text">Error: el campo nombre es obligatorio para procesar la consulta.</span>
+        <button type="submit" onclick="validar()" class="btn">Enviar</button>
       </form>
     </section>
   </main>
@@ -428,7 +481,7 @@
 
     function validar() {
       const input = document.getElementById('nombreCliente');
-      const err = document.getElementById('nombreError');
+      const err = document.getElementById('nameErr');
 
       if (!input.value.trim()) {
         input.setAttribute('aria-invalid', 'true');
