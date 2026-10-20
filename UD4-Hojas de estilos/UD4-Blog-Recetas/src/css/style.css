@@ -1,0 +1,133 @@
+/**
+ *
+ * Estilos generales de la página
+ * Autor: Francisco Pérez Castro
+ * Fichero: style.css
+ * Fecha: 20/10/2026
+ *
+ */
+
+
+/*=========================================
+=            Estilos generales            =
+=========================================*/
+
+/* Conjunto de caracteres */
+@charset "UTF-8";
+
+/* Importar las fuentes */
+@import "./fonts.css";
+
+/* Borrar estilos de autor */
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* Variables_ colores, fuentes */
+:root {
+
+    /* Definición de colores */
+    --bg-page: hsl(30, 54%, 90%);
+    --bg-body: hsl(0, 0%, 100%);
+    --bg-secundario: hsl(330, 100%, 98%);
+    --color-texto: hsl(24, 5%, 18%);
+    --color-titulos: hsl(14, 45%, 36%);
+    --color-titulos-secundario: hsl(332, 51%, 32%);
+    --color-linea: hsl(30, 18%, 87%);
+
+    /* Definición de fuentes */
+    --fuente-titulos: 'young-serif', Arial, Helvetica, sans-serif;
+    --fuente-cuerpo: 'outfit', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+
+    /* Establecemos la fuente y el color del texto */
+    color: var(--color-texto);
+    font: 14px/1.6 var(--fuente-cuerpo);
+}
+
+
+/* Reglas para el body */
+body {
+
+    /* Alto mínimo */
+    min-height: 100vh;
+
+    /* Maquetación: flex */
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* Mandamos el h1 fuera */
+h1 {
+    position: absolute;
+    top: -100vh;
+}
+
+/*----------  Estilos de los encabezados  ----------*/
+
+h1,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--color-titulos);
+    font-family: var(--fuente-titulos);
+}
+
+h2 {
+    font-family: var(--fuente-titulos);
+    text-transform: capitalize;
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: .75rem 0;
+}
+
+.recetas section {
+    padding: 1rem;
+    margin: 0 1rem;
+}
+
+ul,
+ol {
+    padding-left: 1.5rem;
+}
+
+* li {
+    padding: .25rem;
+}
+
+img {
+    width: 100%;
+    object-fit: cover;
+}
+
+/*=====  End of Estilos generales  ======*/
+
+/*============================================
+=            Estilos para el main            =
+============================================*/
+
+main {
+    /* Factor de crecimiento para posicionar el footer abajo del todo */
+    flex: 1;
+    background-color: var(--bg-body);
+}
+
+section figure {
+    width: 100%;
+}
+
+/*=====  End of Estilos para el main  ======*/
