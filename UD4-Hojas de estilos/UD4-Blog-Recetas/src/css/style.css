@@ -33,7 +33,7 @@
 
     /* Definición de colores */
     --bg-page: hsl(30, 54%, 90%);
-    --bg-body: hsl(0, 0%, 100%);
+    --bg-main: hsl(0, 0%, 100%);
     --bg-secundario: hsl(330, 100%, 98%);
     --color-texto: hsl(24, 5%, 18%);
     --color-titulos: hsl(14, 45%, 36%);
@@ -60,7 +60,17 @@ body {
     /* Maquetación: flex */
     display: flex;
     flex-direction: column;
-
+    
+    /**
+     *
+     * align-items tiene efecto cuando no hay wrap.
+     * Cuando hay wrap, el que tendrá efecto es 
+     * align-content
+     *
+     * Valor por defecto de align-items: 
+     *
+     */
+    align-items: center;
 }
 
 /* Mandamos el h1 fuera */
@@ -95,7 +105,7 @@ h3 {
     padding: .75rem 0;
 }
 
-.recetas section {
+.receta section {
     padding: 1rem;
     margin: 0 1rem;
 }
@@ -109,6 +119,14 @@ ol {
     padding: .25rem;
 }
 
+
+/**
+ *
+ * Esta regla es importante. Debemos ponerla siempre p
+ * ara hacer que las imágenes de nuestras páginas web 
+ * sean responsivve
+ *
+ */
 img {
     width: 100%;
     object-fit: cover;
@@ -123,11 +141,105 @@ img {
 main {
     /* Factor de crecimiento para posicionar el footer abajo del todo */
     flex: 1;
-    background-color: var(--bg-body);
+    background-color: var(--bg-main);
 }
 
+/* IMPORTANTE: las imágenes deben ir dentro de otro 
+   elemento (figure o a si es enlace) */
 section figure {
     width: 100%;
 }
 
+.receta {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.desc-receta {
+    padding: 1rem;
+}
+
+#preparacion {
+    background-color: var(--bg-secundario);
+    border-radius: 20px;
+}
+
+#preparacion h3 {
+    color: var(--color-titulos-secundario);
+}
+
+table {
+    margin: 1rem;
+    width: 100%;
+}
+
+table caption {
+    position: absolute;
+    left: -100vw;
+}
+
+tr,
+th,
+td {
+    border-collapse: collapse;
+    border-bottom: 1px solid #c6c6c6;
+}
+
+th {
+    font-weight: 400;
+}
+
+th, td {
+    text-align: start;
+    width: 50%;
+    padding: .5rem;
+}
+
+.valor {
+    font-weight: 600;
+    color: var(--color-titulos);
+}
+
 /*=====  End of Estilos para el main  ======*/
+
+
+/*================================================
+=            Media Queries Escritorio            =
+================================================*/
+
+@media screen and (min-width: 1024px) {
+    html {
+        background-color: var(--bg-page);
+    }
+
+    :root {
+        font-size: 16px;
+    }
+
+    h1 {
+        position: static;
+    }
+
+    body {
+        max-width: 1000px;
+        margin: 0 auto; /* para centrarlo al medio */
+    }
+
+    main {
+        border-radius: 20px;
+        padding: 1rem;
+    }
+
+    section figure {
+        max-height: 440px;
+        max-width: 1312px;
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+}
+
+/*=====  End of Media Queries Escritorio  ======*/
+
