@@ -14,8 +14,7 @@ Los diseños se han creado con los siguientes anchos:
 ### Primarios
 
 - Naranja suave: hsl(35, 77%, 62%)
-- Rojo suave: #f15e50
-#bc1623
+- Rojo suave: #bc1623
 
 ### Neutros
 
